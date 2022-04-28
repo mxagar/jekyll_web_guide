@@ -138,6 +138,8 @@ cd ~/git_repositories/jekyll_web_guide/
 jekyll new 01_my_first_website
 # Go to the project directory
 cd 01_my_first_website
+# Execute this for every new project, it's a bug
+bundle add webrick
 # Compile and serve the website
 bundle exec jekyll serve --trace
 # Open the browser in address 127.0.0.1:4000, localhost:4000
@@ -423,7 +425,7 @@ defaults:
 
 That piece of code will add the default front matter under `values` for all pages that are under the folder `_posts`. If we add a string to `path`, we can specify the folder in which the default is applied.
 
-## 4. Themes
+## 5. Themes
 
 The theme is specified in the `_config.yaml` file, in the key `theme`. By default it is `minima`. We can check where its files are with
 
@@ -432,8 +434,68 @@ bundle show minima
 # ~/.gem/ruby/3.1.2/gems/minima-2.5.1
 ```
 
-There are several ways to change the theme.
+There are several ways to change the theme:
+- We can download it manually and copy its files to our jekyll website project
+- We can install it with `gem` or with the `Gemfile`
 
+### 5.1 Installation with the `Gemfile`
+
+In order to install it with `gem` or the `Gemfile`, we **first** need to get its name in the [rubygems.org](https://rubygems.org) repository:
+
+- Go to [rubygems.org](https://rubygems.org)
+- Search for `jekyll-theme`; many Jekyll themes start with those two words.
+- Note at the package sites the installation command with `gem install`, the homepage / github repo (often with examples and previews).
+- Select one theme, e.g., [jekyll-theme-hacker](https://rubygems.org/gems/jekyll-theme-hacker)
+
+**Second**, we create/select a project and add the theme dependency in the `Gemfile`:
+
+```bash
+jekyll new 02_new_theme 
+cd ../02_new_theme
+bundle add webrick
+# Edit Gemfile: add this line below 'gem "minima", "~> 2.5"'
+# gem "jekyll-theme-hacker"
+# Install the theme with bundle install
+bundle install
+```
+
+**Third**, we specify the new theme in the `_config.yaml`, right below `minima`:
+
+```yaml
+...
+#theme: minima
+theme: jekyll-theme-hacker
+...
+```
+
+**Fourth**, change any layouts from `minima` that are not available in our new theme, `jekyll-theme-hacker`. To that end:
+
+- we go to the repository of the theme [https://github.com/pages-themes/hacker](https://github.com/pages-themes/hacker)
+- we check the possible layouts in the folder `_layouts`: `default` and `post`
+- we manually change all page and post markdowns in our our project to have any of these two layouts in the front matter:
+	- `index.markdown`
+	- `about.markdown`
+	- `_posts/*`
+
+**Fifth**, serve the website locally; everything is set up for us:
+
+```bash
+# Serve
+bundle exec jekyll serve
+# Open the browser at localhost:4000
+```
+
+### 5.2 Manual Installation with Downloaded Theme Packages
+
+
+
+## 6. Layouts
+
+
+
+## X. Deployment: Setting up a GitHub Pages site with Jekyll
+
+[Setting up a GitHub Pages site with Jekyll](https://docs.github.com/en/pages)
 
 ## X. Some Links on Themes and Websites
 
