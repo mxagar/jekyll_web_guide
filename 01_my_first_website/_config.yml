@@ -34,7 +34,7 @@ theme: minima
 plugins:
   - jekyll-feed
 
-# Default settings
+# Default settings (e.g., default front matter)
 defaults:
   -
     scope:

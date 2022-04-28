@@ -18,7 +18,17 @@ No guarantees.
 	- Mac
 	- Linux
 	- Windows
-3. Themes
+	- Notes on Ruby
+3. Creating a New Project/Site and Serving It Locally
+4. Basic Usage and Elements
+	- 4.1 Front Matter
+	- 4.2 Creating Posts
+	- 4.3 Creating Draft Posts
+	- 4.4 Creating Pages
+	- 4.5 Permalinks: Permanent URLs
+	- 4.6 Default Front Matter
+
+
 
 
 ## 1. Introduction
@@ -118,7 +128,7 @@ Some notes on Ruby:
 - The `Gemfile` in a Ruby project is the ffile that lists all dependency packages; our Jekyll site needs to have one
 - `bundler` is the gem that installs gems in our project, listed in the `Gemfile`
 
-## 3. Creating a New Project/Site
+## 3. Creating a New Project/Site and Serving It Locally
 
 Creating and starting a server that serves locally our website is very easy:
 
@@ -215,7 +225,7 @@ plugins:
   - jekyll-feed
 ```
 
-## 3. Basic Usage and Elements
+## 4. Basic Usage and Elements
 
 Recall, to start/stop the server:
 
@@ -232,7 +242,7 @@ bundle exec jekyll serve --trace
 
 BUT: Jekyll tracks any changes and updates `_site` automatically, so we don't need to restart the server every time!
 
-### 3.1 Front Matter
+### 4.1 Front Matter
 
 The front matter is the configuration that appears in any markdown file in the beginning, with the delimiter `---`.
 
@@ -260,7 +270,7 @@ Front matter variables:
 
 --- TODO
 
-### 3.2 Creting Posts
+### 4.2 Creating Posts
 
 Just go to the `_post` folder and create a new file
 
@@ -291,7 +301,7 @@ The post will automatically be processed to obtain its HTML and it will appear o
 
 We can create subdirectories inside `_posts` and move markdonw files around - it won't affect anything, they will be ordered according to their date. That's a nice way of organizing the posts :)
 
-### 3.3 Creating Draft Posts
+### 4.3 Creating Draft Posts
 
 We can create draft posts and store them in a `_draft` folder; they are visualized only if we serve them with the `--draft` option.
 
@@ -322,7 +332,7 @@ jekyll serve --draft --trace
 # The date is automatically the last modification date
 ```
 
-### 3.4 Creating Pages
+### 4.4 Creating Pages
 
 Any page that is not a blog post is in the root directory. Typical pages:
 - About
@@ -360,7 +370,7 @@ Depending on the template/theme we're using, the page link will appear in the me
 
 We can also create a folder in the root directory, e.g., `dir`, and store there our pages. In that case, the URL will be `.../dir/donations.html`.
 
-### 3.5 Permalinks: Permanent URLs
+### 4.5 Permalinks: Permanent URLs
 
 Note that the URLs of our pages/posts depend:
 - on the `category` list we define for them in the front matter
@@ -394,7 +404,7 @@ The last one replicates the default behaviour. We can even add custom extensions
 permalink: /blog/:title
 ```
 
-### 3.6 Default Front Matter
+### 4.6 Default Front Matter
 
 We ca define the default front matter for any page/post we create in the `_config.yaml`. We add the following:
 
@@ -415,7 +425,7 @@ That piece of code will add the default front matter under `values` for all page
 
 ## 4. Themes
 
-The theme is specified in the `_config.yaml` file, in the key `theme`. By default is `minima`. We can check where its files are with
+The theme is specified in the `_config.yaml` file, in the key `theme`. By default it is `minima`. We can check where its files are with
 
 ```bash
 bundle show minima
