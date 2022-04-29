@@ -27,7 +27,11 @@ No guarantees.
 	- 4.4 Creating Pages
 	- 4.5 Permalinks: Permanent URLs
 	- 4.6 Default Front Matter
-
+5. Themes
+	- 5.1 Installation with the `Gemfile`
+	- 5.2 Manual Installation with Downloaded Theme Packages
+6. Layouts
+	
 
 
 
@@ -147,6 +151,7 @@ bundle exec jekyll serve --trace
 # If we want to stop the server: Ctrl+C
 # After the first time, we can simple use
 # jekyll serve --trace 
+# The option --trace is not necessary, it is to track events
 ```
 
 The default template used is [minima](https://github.com/jekyll/minima). We can change it, though. Note that we have by default:
@@ -204,7 +209,7 @@ Description of files and folders
 - `404.html`: default error/not-found website; note that it is not markdown, but directly HTML
 - `.gitignore`: automatically generated git-ignore file
 
-Other two important folders that often appear are `_includes/` and `_layouts/`. The latter contains page style templates within the theme: `post`, `page`, `default`, etc. We can define them in markdown using Liquid. See related section.
+Other two important folders that often appear are `_includes/` and `_layouts/`. The latter contains page style templates within the theme: `post`, `page`, `default`, etc. Then, in each markdown, we can specify which layout we'd like to use. However, note that layouts can be also defined in the theme; the `_layouts/` folder is usually for user-generated types of layouts. See Section 6 on the topic.
 
 **Important; Jekyll tracks any change that happens in the project folder and automatically updates the `_site` folder used to serve the website; so we don't need to stop and restart the server!**
 
@@ -244,6 +249,7 @@ bundle exec jekyll serve --trace
 # TO STOP: Ctrl+C
 # After the first time, we can simple use
 # jekyll serve --trace 
+# The option --trace is not necessary, it is to track events
 ```
 
 BUT: Jekyll tracks any changes and updates `_site` automatically, so we don't need to restart the server every time!
@@ -319,7 +325,7 @@ cd _drafts
 touch my-draft-post.markdown
 ```
 
-Edit as usually:
+Edit `my-draft-post.markdown` as usually:
 
 ```yaml
 ---
@@ -336,6 +342,7 @@ Serve with the option `--draft` if we want to see it rendered; otherwise it's no
 ```bash
 jekyll serve --draft --trace
 # The date is automatically the last modification date
+# The option --trace is not necessary, it is to track events
 ```
 
 ### 4.4 Creating Pages
@@ -546,7 +553,25 @@ to our website project folder
 bundle exec jekyll serve
 ```
 
-## 6. Layouts
+## 6. Layouts & Basic Liquid Usage
+
+Each theme has layouts or page-style templates: `default`, `page`, `post`, etc. Then, we choose for each markdown which layout we'd like to use in the front matter (see Section 4.1).
+
+These layouts are usually defined in the theme code. However, we can create a folder `_layouts/` in the website root folder and define/overwrite layouts with custom HTML and [Liquid](https://shopify.github.io/liquid/) code, e.g.:  `_layouts/post.html`
+
+[Liquid](https://shopify.github.io/liquid/) is a templating language maintained by Shopify that allows variable and logic statement handling inside HTML.
+
+For this section, I create a new website project to mess around with layouts and Liquid:
+
+```bash
+cd ~/git_repositories/jekyll_web_guide/
+jekyll new 04_minima_layouts
+cd 04_minima_layouts
+bundle add webrick
+bundle exec jekyll serve --trace
+```
+
+### 6.1 Layouts
 
 
 
