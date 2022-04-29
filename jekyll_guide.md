@@ -30,7 +30,17 @@ No guarantees.
 5. Themes
 	- 5.1 Installation with the `Gemfile`
 	- 5.2 Manual Installation with Downloaded Theme Packages
-6. Layouts
+6. Layouts, Includes, & Basic Liquid Usage
+	- 6.1 Layouts
+	- 6.2 Hierarchies of Layouts
+	- 6.3 Variables
+		- Pre-Defined Variables: [Jekyll variables](https://jekyllrb.com/docs/variables/)
+		- Example with Pre-Defined and Custom Variables
+	- 6.4 Includes
+	- 6.5 Looping Through Pages
+	- 6.6 Conditionals
+	- 6.7 Data Files
+	- 6.8 Static Files
 	
 
 
@@ -209,9 +219,11 @@ Description of files and folders
 - `404.html`: default error/not-found website; note that it is not markdown, but directly HTML
 - `.gitignore`: automatically generated git-ignore file
 
-Other two important folders that often appear are `_includes/` and `_layouts/`:
+Additional important folders that often appear are:
 - `_includes/` contains re-usable components of our website, such as headers, footers, navigation lists, etc. See Section 6.
 - `_layouts` contains page style templates within the theme: `post`, `page`, `default`, etc. Then, in each markdown, we can specify which layout we'd like to use. However, note that layouts can be also defined in the theme; the `_layouts/` folder is usually for user-generated types of layouts. See Section 6 on the topic.
+- `_data/` contains static databases of teh format `YAML`, `JSON` or `CSV`; these can be accessed from the website.
+- `assets/` contains all static files; static files are the ones that are not parsed and compiled by Jekyll for rendering, e.g., images, PDFs, CSS files, Javascript files, etc. However, note that static files are not necessary in this folder: that name is a soft convention.
 
 **Important; Jekyll tracks any change that happens in the project folder and automatically updates the `_site` folder used to serve the website; so we don't need to stop and restart the server!**
 
@@ -555,7 +567,7 @@ to our website project folder
 bundle exec jekyll serve
 ```
 
-## 6. Layouts, Include, & Basic Liquid Usage
+## 6. Layouts, Includes, & Basic Liquid Usage
 
 Each theme has layouts or page-style templates: `default`, `page`, `post`, etc. These are like skeleton HTML definitions. Then, we choose for each markdown website which layout we'd like to use in the front matter (see Section 4.1).
 
@@ -653,6 +665,7 @@ In general, there are some global variables which contain other sub-variables: :
 	- `site.posts`: a reverse chronological list of all Posts
 	- `site.categories.CATEGORY`: The list of all Posts in category CATEGORY
 	- `site.url`: site URL; default: `http://localhost:4000`
+	- `site.static_files`: a list of all static files, i.e., images, PDFs, CSS, Javascript, etc.
 	- ...
 - `page`: current page specific variables + user-defined in the front matter
 	- `page.title`
@@ -795,7 +808,105 @@ layout: wrapper
 {{ content }}
 ```
 
-### 
+### 6.7 Data Files
+
+We can have 3 types of data files that act like small static databases: `JSON`, `YAML` and `CSV`.
+
+To that end, we need to create the folder `_data/` in the root website folder, and move our data files there. Then, we can access those files with `site.data.<filename>`.
+
+Example:
+
+`_data/people.yaml`:
+
+```yaml
+- name: "Mikel"
+  occupation: "Research Engineer"
+
+- name: "Ana"
+  occupation: "Scrum Master"
+
+- name: "Unai"
+  occupation: "Engineer"
+
+- name: "June"
+  occupation: "Astronaut"
+```
+
+`_layouts/home.html`:
+
+```html
+{% for post in site.posts %}
+	<li><a href="{{ post.url }}">{{ post.title }}</a></li>
+{% endfor %}
+
+<hr>
+
+{% for person in site.data.people %}
+	{{ person.name }}, {{ person.occupation }} <br>
+{% endfor %}
+```
+
+### 6.8 Static Files
+
+A static file is any file which is not being parsed and compiled by Jekyll. For instance:
+
+- Images
+- CSS, Javascript, etc.
+- PDFs
+
+By convention, we often see a folder called `assets` in the website root folder to keep those files; recall that Jekyll moves to `_site` all the files & folders that are not preceeded by `_`. However, we can have the static files in other places, too.
+
+Let's create the folder `assets/` with these files:
+- `datamix_logo_draft.png`
+- `doc.pdf`
+
+Then, we can access the files as done in `_layouts/home.html`:
+
+```html
+{% for post in site.posts %}
+	<li><a href="{{ post.url }}">{{ post.title }}</a></li>
+{% endfor %}
+
+<hr>
+
+{% for person in site.data.people %}
+	{{ person.name }}, {{ person.occupation }} <br>
+{% endfor %}
+
+<hr>
+
+{% for file in site.static_files %}
+	{{ file.path }} <br>
+{% endfor %}
+
+```
+
+Now, we can see the paths of the static files in the home page. However, it's irrelevant for Jekyll where the static files are located, so *all* static files (also the ones not in `assets/`) are displayed:
+
+```
+Welcome to Jekyll!
+My third post!
+My second post!
+My first post!
+---
+Mikel, Research Engineer 
+Ana, Scrum Master 
+Unai, Engineer 
+June, Astronaut 
+---
+/assets/datamix_logo_draft.png 
+/assets/doc.pdf 
+/assets/minima-social-icons.svg 
+```
+
+Other file attributes we can access:
+
+- `file.name`: filename without path
+- `file.basename`: without extension
+- `file.extname`: extension
+
+It is also possible to assign attributes to folers in the `_config.yaml` file so that they're assigned to the contained files; that way, we can tag all files in `assets/img` as images.
+
 
 ## X. Deployment: Setting up a GitHub Pages site with Jekyll
 
