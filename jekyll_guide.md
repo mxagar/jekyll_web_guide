@@ -4,7 +4,7 @@ These are my personal notes related to creating and deploying static web pages w
 
 The notes originated from various sources, among others:
 
-- The Youtbe [tutorial by Mike Dane](https://www.youtube.com/watch?v=T1itpPvFWHI&list=PLLAZ4kZ9dFpOPV5C5Ay0pHaa0RJFhcmcB).
+- The Youtube [tutorial by Mike Dane](https://www.youtube.com/watch?v=T1itpPvFWHI&list=PLLAZ4kZ9dFpOPV5C5Ay0pHaa0RJFhcmcB).
 - The orginal [Jekyll documentation page](https://jekyllrb.com/docs/).
 - The Udemy course by Jana Bergant [Jekyll: make fast, secure static sites and blogs with Jekyll](https://www.udemy.com/course/static-website-generator-fast-secure-sites-blogs-with-jekyll)
 
@@ -47,7 +47,7 @@ Static websites are a collection of HTML, CSS and Javascript files, in addition 
 In contrast to dynamic sites (e.g., Wordpress), there is no database.
 
 Main benefits of static sites
-- Performaces: tehy are much faster
+- Performace: they are much faster
 - Security: since they don't change, they are inmune to attacks, as long as the files are secure.
 - You can easily apply version control.
 - Simplicity for buulding and maintaining
@@ -209,7 +209,9 @@ Description of files and folders
 - `404.html`: default error/not-found website; note that it is not markdown, but directly HTML
 - `.gitignore`: automatically generated git-ignore file
 
-Other two important folders that often appear are `_includes/` and `_layouts/`. The latter contains page style templates within the theme: `post`, `page`, `default`, etc. Then, in each markdown, we can specify which layout we'd like to use. However, note that layouts can be also defined in the theme; the `_layouts/` folder is usually for user-generated types of layouts. See Section 6 on the topic.
+Other two important folders that often appear are `_includes/` and `_layouts/`:
+- `_includes/` contains re-usable components of our website, such as headers, footers, navigation lists, etc. See Section 6.
+- `_layouts` contains page style templates within the theme: `post`, `page`, `default`, etc. Then, in each markdown, we can specify which layout we'd like to use. However, note that layouts can be also defined in the theme; the `_layouts/` folder is usually for user-generated types of layouts. See Section 6 on the topic.
 
 **Important; Jekyll tracks any change that happens in the project folder and automatically updates the `_site` folder used to serve the website; so we don't need to stop and restart the server!**
 
@@ -449,7 +451,7 @@ There are several ways to change the theme:
 - We can download it manually and copy its files to our jekyll website project
 - We can install it with `gem` or with the `Gemfile`
 
-General recommendation: always first cchoose the theme, because changing it after the site is built is more difficult; some page layouts might be different, etc.
+**Recommendation**: always first choose the theme, because changing it after the site is built is more difficult; some page layouts might be different, etc.
 
 ### 5.1 Installation with the `Gemfile`
 
@@ -553,13 +555,13 @@ to our website project folder
 bundle exec jekyll serve
 ```
 
-## 6. Layouts & Basic Liquid Usage
+## 6. Layouts, Include, & Basic Liquid Usage
 
-Each theme has layouts or page-style templates: `default`, `page`, `post`, etc. Then, we choose for each markdown which layout we'd like to use in the front matter (see Section 4.1).
+Each theme has layouts or page-style templates: `default`, `page`, `post`, etc. These are like skeleton HTML definitions. Then, we choose for each markdown website which layout we'd like to use in the front matter (see Section 4.1).
 
 These layouts are usually defined in the theme code. However, we can create a folder `_layouts/` in the website root folder and define/overwrite layouts with custom HTML and [Liquid](https://shopify.github.io/liquid/) code, e.g.:  `_layouts/post.html`
 
-[Liquid](https://shopify.github.io/liquid/) is a templating language maintained by Shopify that allows variable and logic statement handling inside HTML.
+[Liquid](https://shopify.github.io/liquid/) is a templating language maintained by Shopify that allows variable and logic statement handling inside HTML. We can use Liquid with the curly braces: `{{ ... }}`.
 
 For this section, I create a new website project to mess around with layouts and Liquid:
 
@@ -573,7 +575,227 @@ bundle exec jekyll serve --trace
 
 ### 6.1 Layouts
 
+In the default `minima` theme, we have the layouts `default`, `post` and `page` define in the theme code. We can overwrite them as follows:
 
+- In the website project root folder, we create the folder `_layouts/`
+- Inside `_layouts/`, we create the file `post.html`; with that, we overwrite the `post` layout defined in the theme.
+
+Now, let's play around with that `post.html` with HTML and Liquid: we add a header title (which is always the same) and the use Liquid to add the variable `content`:
+
+```html
+<h1>This is a post</h1>
+<hr>
+
+{{ content }}
+```
+
+Now, if we open `localhost:4000` and click on the post, we see an ungly post display.
+
+We can also create our own `layouts`: `_layouts/mylayout.html`; then, we need to specify them in the front matter of the pages we want.
+
+`_layouts/mylayout.html`:
+
+```html
+<h1>This is my layout</h1>
+<hr>
+
+{{ content }}
+```
+
+### 6.2 Hierarchies of Layouts
+
+We can create different levels of layouts that wrap one to the other.
+
+`_layouts/wrapper.html`:
+
+```html
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Document</title>
+</head>
+<body>
+	START <br>
+	{{ content }}
+	</br> END
+</body>
+</html>
+```
+
+Now, we add in the front matter of the `post.html` layout the `wrapper.html` layout!
+
+```html
+---
+layout: wrapper
+---
+
+<h1>This is a post</h1>
+<hr>
+
+{{ content }}
+```
+
+The effect is that the post has two layouts: `wrapper` wraps `post`, so the content is formatted with both; the words "Wrapper" appear on the rendered page. It is as if `wrapper` were the parent layout.
+
+### 6.3 Variables
+
+Jekyll uses variables that can be handled in Liquid blocks. One of these is `{{ content }}`. Roughly, we have two types of variables:
+
+- Pre-defined variables of Jekyll: [Jekyll variables](https://jekyllrb.com/docs/variables/)
+- Custom variables defined by the user in the front matter of the layout or the page/post.
+
+#### Pre-Defined Variables: [Jekyll variables](https://jekyllrb.com/docs/variables/)
+
+In general, there are some global variables which contain other sub-variables: :
+
+- `site`: general info + settings from `_config.yaml`
+	- `site.pages`: a list of all pages
+	- `site.posts`: a reverse chronological list of all Posts
+	- `site.categories.CATEGORY`: The list of all Posts in category CATEGORY
+	- `site.url`: site URL; default: `http://localhost:4000`
+	- ...
+- `page`: current page specific variables + user-defined in the front matter
+	- `page.title`
+	- `page.url`
+	- `page.date`
+	- `page.categories`
+	- ...
+- `layout`: current layout specific variables + user-defined in the front matter
+- `content`: the content itself
+- `paginator`: available when pagination is active: content (e.g., blog post) is break down into several pages.
+
+#### Example with Pre-Defined and Custom Variables
+
+`_layouts/post.html`
+
+```html
+---
+layout: wrapper
+author: "Mikel"
+---
+
+<h1>{{ page.title }}</h1>
+<h3>{{ layout.author }}</h3>
+<hr>
+
+{{ content }}
+```
+
+Then, our post will have now its page title, the author name of the layout and the content. Additionally, everythin is wrapped by the parent layout `wrapper.html`.
+
+### 6.4 Includes
+
+Includes are used to define **headers**, **footers**, **navigation lists**, or similar components that are repeated in different pages/layouts. This keeps the HTML code of each component modularized in a unique place.
+
+Example of how to create a header:
+
+- In the website project root folder, we create the folder `_includes/`.
+- Inside `_includes/`, we create the file `header.html`.
+- It makes sense to include that header in the `wrapper.html` layout, since it's used as the parent layout; that can be done with `	{% include header.html %}`.
+
+This is how the different HTML files wouldd look like:
+
+`_includes/header.html`:
+
+```html
+<h1>{{ site.title }}</h1>
+<hr><br>
+```
+
+`_layouts/wrapper.html`:
+
+```html
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>{{ site.title }}</title>
+</head>
+<body>
+	{% include header.html %}
+	{{ content }}
+</body>
+</html>
+```
+
+`_layouts/post.html`:
+
+```html
+---
+layout: wrapper
+---
+
+<h1>{{ page.title }}</h1>
+<hr>
+
+{{ content }}
+```
+
+We can also pass variables to the includes, which can be used in them. For instance, if we want to be able to change the color of the header:
+
+`_includes/header.html`:
+
+```html
+<h1 style="color: {{ include.color }}">{{ site.title }}</h1>
+<hr><br>
+```
+
+`_layouts/wrapper.html`:
+
+```html
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>{{ site.title }}</title>
+</head>
+<body>
+	{% include header.html color="blue"%}
+	{{ content }}
+</body>
+</html>
+```
+
+### 6.5 Looping Through Pages
+
+Looping is necessary if we want to create navigation lists: we loop over all our posts.
+
+We overwrite the `home` layout from `minima`:
+
+`_layouts/home.html`:
+
+```html
+{% for post in site.posts %}
+	<li><a href="{{ post.url }}">{{ post.title }}</a></li>
+{% endfor %}
+```
+
+If we create several posts in `_posts`, we'll see a list of posts on our home page.
+
+### 6.6 Conditionals
+
+These are basically `if`-`else` statements.
+
+Example: `_layouts/post.html`:
+
+```html
+---
+layout: wrapper
+---
+
+<h1>{{ page.title }}</h1>
+<hr>
+
+{% if page.title == "My first post!" %}
+	This is my first post.
+{% elsif page.title == "My second post!" %}
+	This is my second post.
+{% else %}
+	This is another post.
+{% endif %}
+
+{{ content }}
+```
+
+### 
 
 ## X. Deployment: Setting up a GitHub Pages site with Jekyll
 

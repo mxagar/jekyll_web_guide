@@ -1,0 +1,16 @@
+---
+layout: wrapper
+---
+
+<h1>{{ page.title }}</h1>
+<hr>
+
+{% if page.title == "My first post!" %}
+	This is my first post.
+{% elsif page.title == "My second post!" %}
+	This is my second post.
+{% else %}
+	This is another post.
+{% endif %}
+
+{{ content }}
