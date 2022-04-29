@@ -196,16 +196,20 @@ Description of files and folders
 	- `assets`: SVGs, CSS, media, etc.
 	- `feed.xml`: RSS feed file
 	- `index.html`: main/home page compiled as HTML
-	- `cat1/...`: blog posts, ordered in the categoroes we assign them and year/month/day folders
+	- `cat1/...`: blog posts, ordered in the categoroes we assign them (e.g., `cat1`) and year/month/day folders
 - `_config.yaml`: very important file in which we configure our website; we need to change this file!
 - `Gemfile`: dependencies listed by ruby/gem for our website; if we want plugins/themes, we need to specify them here.
 - `index.markdown`: main website page description in markdown; we can modify its contents!
 - `about.markdown`: about page description in markdown; we can modify its contents!
-- `404.html`: default error/not-found website
+- `404.html`: default error/not-found website; note that it is not markdown, but directly HTML
 - `.gitignore`: automatically generated git-ignore file
 
+Other two important folders that often appear are `_includes/` and `_layouts/`. The latter contains page style templates within the theme: `post`, `page`, `default`, etc. We can define them in markdown using Liquid. See related section.
 
 **Important; Jekyll tracks any change that happens in the project folder and automatically updates the `_site` folder used to serve the website; so we don't need to stop and restart the server!**
+
+- All files and folders which start with `_` are used to generate the site elements and are tracked.
+- All the rest of the files we add in the folder are copied to `_site/`; if we remove any of these files in the project folder, they are removed automatically from the `_site/` folder, too!
 
 Default content of the `_config.yaml` file using the [minima](https://github.com/jekyll/minima):
 
@@ -438,9 +442,11 @@ There are several ways to change the theme:
 - We can download it manually and copy its files to our jekyll website project
 - We can install it with `gem` or with the `Gemfile`
 
+General recommendation: always first cchoose the theme, because changing it after the site is built is more difficult; some page layouts might be different, etc.
+
 ### 5.1 Installation with the `Gemfile`
 
-In order to install it with `gem` or the `Gemfile`, we **first** need to get its name in the [rubygems.org](https://rubygems.org) repository:
+In order to install it with `gem` or the `Gemfile`, **first** we need to get its name in the [rubygems.org](https://rubygems.org) repository:
 
 - Go to [rubygems.org](https://rubygems.org)
 - Search for `jekyll-theme`; many Jekyll themes start with those two words.
@@ -487,7 +493,58 @@ bundle exec jekyll serve
 
 ### 5.2 Manual Installation with Downloaded Theme Packages
 
+This approach is the most general one: we download a theme from the internet as a ZIP and we want to use it.
 
+**First**, we find and download a theme (provided in the Udemy course by Jana Bergant):
+
+`./themes/jekyll_template_udemy/`
+
+**Second**, we create a new project:
+
+```bash
+jekyll new 03_new_theme_manual 
+cd ../03_new_theme_manual
+bundle add webrick
+```
+
+**Third**, we delete and modify some files in the default generated project.
+
+Delete all the files with any content:
+- The post markdowns in `_posts/*`, but not the `_posts` folder
+- `about.markdown`
+- `index.markown`
+
+Modify the configuration files that reference the default theme:
+- `_config.yaml`: remove the theme line: `theme: minima`
+- `Gemfile`: remove the theme file: `gem "minima", "~> 2.5"`
+
+In the remaining markdown/content files, remove any layout references:
+- `404.html`: remove `layout: default`
+
+**Fourth**, we remove the dependencies in the project:
+
+```bash
+bundle
+```
+
+**Fifth**, we add new folders in the website project root:
+
+- `./03_new_theme_manual/_includes/`
+- `./03_new_theme_manual/_layouts/`
+
+**Sixth**, we copy all the contents from the template/theme folder 
+
+`./themes/jekyll_template_udemy/*`
+
+to our website project folder
+
+`./03_new_theme_manual/`
+
+**Seventh**, we build and serve our project:
+
+```bash
+bundle exec jekyll serve
+```
 
 ## 6. Layouts
 
