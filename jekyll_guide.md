@@ -41,8 +41,13 @@ No guarantees.
 	- 6.6 Conditionals
 	- 6.7 Data Files
 	- 6.8 Static Files
-	
-
+7. Deployment: Setting up a GitHub Pages Site with Jekyll
+	- 7.1 Create and Publish First Version
+	- 7.2 Check Website Locally and Work on It
+	- 7.3 Use Custom Domain
+8. Project 1: Create a Company Landing Page
+9. Project 2: Create a Blog
+10. Comments & Forms
 
 
 ## 1. Introduction
@@ -212,7 +217,7 @@ Description of files and folders
 	- `feed.xml`: RSS feed file
 	- `index.html`: main/home page compiled as HTML
 	- `cat1/...`: blog posts, ordered in the categoroes we assign them (e.g., `cat1`) and year/month/day folders
-- `_config.yaml`: very important file in which we configure our website; we need to change this file!
+- `_config.yaml`: very important file in which we configure our website; we need to change this file! Every time we change this file, the serving must be re-started.
 - `Gemfile`: dependencies listed by ruby/gem for our website; if we want plugins/themes, we need to specify them here.
 - `index.markdown`: main website page description in markdown; we can modify its contents!
 - `about.markdown`: about page description in markdown; we can modify its contents!
@@ -524,7 +529,7 @@ This approach is the most general one: we download a theme from the internet as 
 
 ```bash
 jekyll new 03_new_theme_manual 
-cd ../03_new_theme_manual
+cd 03_new_theme_manual
 bundle add webrick
 ```
 
@@ -573,7 +578,9 @@ Each theme has layouts or page-style templates: `default`, `page`, `post`, etc. 
 
 These layouts are usually defined in the theme code. However, we can create a folder `_layouts/` in the website root folder and define/overwrite layouts with custom HTML and [Liquid](https://shopify.github.io/liquid/) code, e.g.:  `_layouts/post.html`
 
-[Liquid](https://shopify.github.io/liquid/) is a templating language maintained by Shopify that allows variable and logic statement handling inside HTML. We can use Liquid with the curly braces: `{{ ... }}`.
+[Liquid](https://shopify.github.io/liquid/) is a templating language maintained by Shopify that allows variable and logic statement handling inside HTML. We can use Liquid with the curly braces: `{}`:
+- `{{ ... }}`: output markups, used to ouput variables
+- `{% ... %}`: tag markups, used to perform logic operations
 
 For this section, I create a new website project to mess around with layouts and Liquid:
 
@@ -908,9 +915,260 @@ Other file attributes we can access:
 It is also possible to assign attributes to folers in the `_config.yaml` file so that they're assigned to the contained files; that way, we can tag all files in `assets/img` as images.
 
 
-## X. Deployment: Setting up a GitHub Pages site with Jekyll
+## 7. Deployment: Setting up a GitHub Pages Site with Jekyll
 
-[Setting up a GitHub Pages site with Jekyll](https://docs.github.com/en/pages)
+See the official guide: [Setting up a GitHub Pages site with Jekyll](https://docs.github.com/en/pages)
+
+I followed that guide with some changes. I add the summary here, divided in the following sections/stages:
+
+1. Create and Publish First Version
+2. Check Website Locally and Work on It
+
+Note that I wrote the howto for a concrete case:
+- Github user: mxagar
+- Github website repository: mxagar.github.io
+- New domain, bought on namecheap: mikelsagardia.io
+
+### 7.1 Create and Publish First Version
+
+```
+Create a new repository on GitHub: mxagar.github.io
+
+	I set it public
+	Is it possible to make it private?
+
+Create a git repository on local machine and configure it properly
+
+	cd ~/git_repositories
+	git init mxagar.github.io
+	cd mxagar.github.io
+
+	# We need to use the gh-pages branch for automatic publishing
+	# Create it without history and remove anything we have
+	git checkout --orphan gh-pages
+	git rm -rf 
+
+Create a new Jekyll website project and configure it properly
+
+	# Create a new Jekyll website project
+	jekyll new --skip-bundle .
+
+	# Open the Gemfile and change it
+	# - Comment out:
+			gem "jekyll"
+	# - Change the line '# gem "github-pages"' to be:
+			gem "github-pages", "~> GITHUB-PAGES-VERSION", group: :jekyll_plugins
+	# - Note: GITHUB-PAGES-VERSION = 226 
+			https://pages.github.com/versions/
+
+	# Install Ruby/Jekyll dependencies
+	bundle install
+
+	# Fix webrick bug
+	bundle add webricks
+
+	# Update github-pages plugin
+	bundle update github-pages
+
+	# Configure _config.yaml: add/modify these lines
+		domain: mxagar.github.io
+		url: https://mxagar.github.io
+		baseurl: ""
+
+	# Upload website contents to the remote repository
+	git add .
+	git commit -m 'Initial GitHub pages site with Jekyll'
+	git remote add origin git@github.com:mxagar/mxagar.github.io.git
+
+	# Always push to the branch gh-pages for automatic publishing!
+	git pull
+	git push -u origin gh-pages
+
+Check settings on GitHub
+	
+	Go to repository Settings: mxagar.github.io
+	Left panel: Code and automation > Pages
+	Check:
+		Source
+			Branch: gh-pages
+			/ (root)
+	Click on "Enforce HTTPS" if option is available
+
+Check: website should be live, accessible online	
+	https://mxagar.github.io
+```
+
+### 7.2 Check Website Locally and Work on It
+
+If we want to render the website locally:
+
+```
+# Go to repository
+cd ~/git_repositories/mxagar.github.io
+
+# Get changes
+git pull
+
+# Update github-pages plugin
+bundle update github-pages
+
+# Serve the website locally
+# For non-first times, we can also run 'jekyll serve'
+bundle exec jekyll serve
+
+# Open browser on localhost:4000
+```
+
+For working on the website:
+
+```
+# Always get changes that might have happened!
+git pull
+
+# Make changes locally
+
+# Commit changes
+git add <FILES>
+git commit -m "message"
+
+# Push to gh-pages branch
+git push -u origin gh-pages
+
+# New version will be deployed in few minutes automatically
+```
+
+### 7.3 Use Custom Domain
+
+There are three main types of domains:
+- `www` domain: `www.mikelsagardia.io` 
+- Subdomains: `blog.mikelsagardia.io`
+- Apex domains `mikelsagardia.io`
+
+Github reocmmends using `www` domains, because they redirect them to apex domains, too.
+I am using an apex domain: `mikelsagardia.io`
+
+Here it is how I set it up:
+
+```
+Buy domain at wwww.namecheap.com
+	
+	mikelsagardia.io
+
+Create a CNAME file on the website repository which contains the domain string
+That is automatically generated if we insert the domain name on the GitHub settings
+	
+	Go to Github repository Settings
+	Left panel: Code and automation > Pages: Custom domain
+		mikelsagardia.io
+		Check domain
+			First time won't work, because we need to make chanes on the DNS provider: namecheap
+			After the changes in the DNS provider, we probably need to wait 30 mins
+		Enforce HTTPS
+	
+Go to domain provider and add the IPs of the Hosting (Github): 
+DNS provider: www.namecheap.com
+
+	Domain list > Select domain: mikelsagardia.io > Manage > Advanced DNS
+	HOST Records: Add Records (one record for each IP)
+
+		Type: A
+		Host: @ (bare domain)
+		TTL: Automatic
+		Value: IPs rovided by Github
+			185.199.108.153
+			185.199.109.153
+			185.199.110.153
+			185.199.111.153
+
+Check that the records were propagated: open Terminal 30 mins later and execute
+
+	dig mikelsagardia.io +noall +answer -t AAAA
+
+	# The response should be
+
+		; <<>> DiG 9.10.6 <<>> mikelsagardia.io +noall +answer -t A
+		;; global options: +cmd
+		mikelsagardia.io.	1799	IN	A	185.199.111.153
+		mikelsagardia.io.	1799	IN	A	185.199.108.153
+		mikelsagardia.io.	1799	IN	A	185.199.110.153
+		mikelsagardia.io.	1799	IN	A	185.199.109.153
+
+Go to GitHub repository Settings again:
+
+
+	Left panel: Code and automation > Pages: Custom domain
+		mikelsagardia.io
+		Check domain
+			After the changes in the DNS provider, we probably need to wait 30 mins
+			Then, it should work
+		Enforce HTTPS
+
+Open browser: and check the website is deployed!
+	
+	https://mikelsagardia.io
+
+Go to local website repostory: pull changes: CNAME
+
+	cd ~/git_repositories/mxagar.github.io
+	git pull
+
+```
+
+## 8. Project: Create a Company Landing Page with a Blog
+
+In this section, I play around with the theme and website project from the Udemy course by Jana Bergant [Jekyll: make fast, secure static sites and blogs with Jekyll](https://www.udemy.com/course/static-website-generator-fast-secure-sites-blogs-with-jekyll).
+
+First, we create a new website project following Section 5.2: Manual Installation with Downloaded Theme Packages.
+
+That leads to the project `05_website_project/`.
+
+All the changes are committed, but I don't thoroughly explain all the changes here. Instead, if techniques are relevant, they are written in the other sections. Here, a simple list of actions is collected in sections
+
+### Modularization: Layouts & Includes
+
+- A default layout is created: `_layouts/default.html`. It contains the header and footer HTML code wrapping the `{{content}}`. In the rest of the HTML files, the header & footer HTML code is removed and we add a front matter with the `layout: default`, and their title. This makes possible to control our header and footer in one file!
+- The metadata title of each page is changed to be a Liquid conditional in the `default.html`: `{% if page.title %}{{ page.title }}{% else %}Great web agency{% endif %}`. This allows to display the title of each page, as defined in its front matter!
+- Includes are created: `_includes/subpage-header.html`, `_includes/home-slider.html`. Similarly as before, code pieces are removed from the other pages and inludes are done with Liquid; e.g.: `{% include home-slider.html %}`.
+- Include HTML files are also customized with Liquid: `{{ page.title }}`. That way, each injected include adapts its content to the page it is inserted into.
+- Similarly, includes are created for all the reusable components of the web, and injected where it proceeds (in all pages execpt in `post.html`). A list of the contents in `_includes/` after the moddularization:
+	- `about.html`
+	- `call-to-action.html`
+	- `contact-info.html`
+	- `home-services.html`
+	- `nav.html`
+	- `subpage-header.html`
+	- `believe.html`
+	- `clients.html`
+	- `footer-nav.html`
+	- `home-slider.html`
+	- `portfolio.html`
+	- `blog-posts.html`
+	- `contact-form.html`
+	- `gooogle-map.html`
+	- `home-testimonials.html`
+	- `social-icons.html`
+
+### Configuration
+
+The main configuration happens in `_config.yaml`. Every time we change this file, the serving must be restarted.
+
+The variables in it are discussed. Note that `description` is very important: it is used by Google (include relevant keywords) and it is shown by Google!
+
+Additionally, the `default.html` is updated to contain these updated lines:
+
+```html
+<title>{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}</title>
+<meta name="description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}">
+<base href="{{ site.url }}">
+```
+
+### Navigation Menu
+
+
+
+## 9. Forms
+
+## 10. Comments
 
 ## X. Some Links on Themes and Websites
 
@@ -923,6 +1181,7 @@ It is also possible to assign attributes to folers in the `_config.yaml` file so
 
 ### Interesting Selected Themes
 
+- [Markdown cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
 
 ### Interesting Websites Examples
 
