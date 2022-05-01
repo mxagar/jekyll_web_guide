@@ -1144,7 +1144,7 @@ All the changes are committed, but I don't thoroughly explain all the changes he
 	- `portfolio.html`
 	- `blog-posts.html`
 	- `contact-form.html`
-	- `gooogle-map.html`
+	- `google-map.html`
 	- `home-testimonials.html`
 	- `social-icons.html`
 
@@ -1164,7 +1164,20 @@ Additionally, the `default.html` is updated to contain these updated lines:
 
 ### Navigation Menu
 
+The navigation menu in `nav.html` is modified to contain the correct links and highlight the active page.
 
+```html
+<!-- Collect the nav links, forms, and other content for toggling -->
+<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+  <ul class="nav navbar-nav navbar-right">
+    <li {% if page.url == "/" %} class="active" {% endif %}><a href="index.html">Home</a></li>
+    <li {% if page.url == "/about-us.html" %} class="active" {% endif %}><a href="about-us.html">About</a></li>
+    <li {% if page.url == "/work.html" %} class="active" {% endif %}><a href="work.html">Portfolio</a></li>
+    <li {% if page.url == "/blog.html" %} class="active" {% endif %}><a href="blog.html">Blog</a></li>
+    <li {% if page.url == "/contact.html" %} class="active" {% endif %}><a href="contact.html">Contact</a></li>
+  </ul>
+</div><!-- /.navbar-collapse -->
+```
 
 ## 9. Forms
 
