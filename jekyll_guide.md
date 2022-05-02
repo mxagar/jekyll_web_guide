@@ -41,6 +41,7 @@ No guarantees.
 	- 6.6 Conditionals
 	- 6.7 Data Files
 	- 6.8 Static Files
+	- 6.9 Filters
 7. Deployment: Setting up a GitHub Pages Site with Jekyll
 	- 7.1 Create and Publish First Version
 	- 7.2 Check Website Locally and Work on It
@@ -469,6 +470,14 @@ There are several ways to change the theme:
 - We can install it with `gem` or with the `Gemfile`
 
 **Recommendation**: always first choose the theme, because changing it after the site is built is more difficult; some page layouts might be different, etc.
+
+**Hint**: if we install the themes through the `Gemfile`, where are the HTML and CSS files used to create the site located? We can execute the following command to check their location in the local computer:
+
+```bash
+cd .../my_website
+# Replace 'minima' with the name of the theme we have installed in the Gemfile
+bundle info minima # ~/.gem/ruby/3.1.2/gems/minima-2.5.1
+```
 
 ### 5.1 Installation with the `Gemfile`
 
@@ -962,8 +971,6 @@ Typical [Standard Liquid Filters](https://shopify.github.io/liquid/filters/abs/)
 
 ```
 
-
-
 ## 7. Deployment: Setting up a GitHub Pages Site with Jekyll
 
 See the official guide: [Setting up a GitHub Pages site with Jekyll](https://docs.github.com/en/pages)
@@ -1236,7 +1243,7 @@ The navigation menu in `nav.html` is modified to contain the correct links and h
 	- Includes are done with HTML pieces
 	- Side panels or Widgets (posts with same categories, contact) are created/displayed
 
-Example post `2022-05-01-benefits-of-static-site-generators.markdown`:
+Example post `2022-05-01-benefits-of-static-site-generators.markdown`. Note that later some variables are defined in the default front matter in `_config.yaml`:
 
 ```yaml
 ---
@@ -1358,10 +1365,107 @@ layout: default
 
 ```
 
+### Blog Post List
 
-## 9. Forms
+A blog post loop is created in `_layouts/blog-posts.html`, included in `blog.html`
 
-## 10. Comments
+```html
+<!-- Blog HTML -->
+<section id="blog">
+    <div class="container"> 
+        <div class="row">
+            <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1"> 
+                {% for post in site.posts %}
+                <!-- Blog Post -->
+                <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
+
+                <p class="lead">by <a href="#">{{ post.author }}</a></p>
+                <p><span class="glyphicon glyphicon-time"></span> Posted on {{ post.date | date: "%B %d, %Y" }}</p>
+                {% if page.image %}
+                <img class="img-responsive" src="{{ post.image }}" alt="{{ post.title }}">
+                <hr>
+                {% endif %}
+                {{ post.excerpt }}             
+                <a class="btn btn-primary" href="{{ post.url }}">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
+                <hr> 
+                {% endfor %}
+
+            </div>
+        </div> 
+    </div>
+</section>
+```
+
+## 9. Comments
+
+Even though ststic site generators cannot natively have databases with dynamic content, we can add comments to our blog/website via third party services. [Disqus](https://disqus.com) is a commonly used service.
+
+Steps:
+- Create a Disqus account.
+- Add a new disqus site: Settings > Add Disqus to Site
+	- Scroll down: Get Started
+- I want to install Disqus on my site
+- Write our website name, category, etc.
+- Select free plan
+- Select Jekyll / Universal code
+- Follow instructions; see summary below.
+
+My Disqus page settings are as follows:
+- Shortname: mikelsagardia
+- Website Name: mikelsagardia.io
+- Website URL: https://mikelsagarda.io
+
+After setting the Disqus page up, we need to inject the HTML code in our posts. The easiest way is to create `_includes/disqus-comments.html` with the Disqus-provided code and then include & enable it in the post markdown.
+
+Post markdown:
+
+```html
+---
+comments: true
+---
+
+My post text.
+
+{% if page.comments %} 
+{% include disqus-comments.html %}
+{% endif %}
+
+```
+
+Disqus comments injenction HTML code: `_includes/disqus-comments.html`
+
+```html
+<div id="disqus_thread"></div>
+<script>
+    /**
+    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+    
+    var disqus_config = function () {
+    this.page.url = '{{ page.url | absolute_url }}';  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = '{{ page.url | absolute_url }}'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    
+    (function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = 'https://mikelsagardia.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+```
+
+## 10. Forms
+
+There are several options to add forms to Jekyll websites: [Jekyll Contact Forms](https://jekyllthemes.io/resources/jekyll-contact-forms)
+
+The recommended option is [Formspree](https://formspree.io). I will list the steps that need to be carried out, but no detailed code pieces are collected here:
+
+- We create a free account.
+- We create a new form, with a unique identifier and a specific code to be injected.
+- A file `_includes/contact-form.html` is created, where the code generated by Formspree needs to be pasted. We can use the blueprint from Section 8. Note that probably the HTML and CSS files need to be modified, if the field number and order do not match...
+- After the visitors submit the form, a "Thank you" page can be shown, using the hidden variable `_next` provided by Formspree. We basically create a "Thank you" page and paste its URL to the variable.
 
 ## X. Some Links on Themes and Websites
 
