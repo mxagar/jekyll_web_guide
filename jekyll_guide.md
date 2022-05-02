@@ -295,11 +295,11 @@ We can change the post title, date, etc.; and everything will be updated automat
 Front matter variables:
 - `layout`: the theme scheme we want to use, the style
 - `title`
-- `date`: use the convention, we can really write any date
+- `date`: use the convention, we can really write any date; the date in the front matter overwrites the date of the filename
 - `categories`
 - `author`
 
---- TODO
+Hint: we can define a default post image as a placeholder in the front matter!
 
 ### 4.2 Creating Posts
 
@@ -914,6 +914,55 @@ Other file attributes we can access:
 
 It is also possible to assign attributes to folers in the `_config.yaml` file so that they're assigned to the contained files; that way, we can tag all files in `assets/img` as images.
 
+### 6.9 Filters
+
+Filters can be used to extract information from variables. Several types of filters ccan be distinguished:
+
+- [Standard Liquid Filters](https://shopify.github.io/liquid/filters/abs/)
+- [Jekyll specific filter](https://jekyllrb.com/docs/liquid/filters/)
+- User-defined [Jekyll filters that are created as plugins](https://jekyllrb.com/docs/plugins/filters/)
+
+Typical [Standard Liquid Filters](https://shopify.github.io/liquid/filters/abs/):
+
+```yaml
+{{ -17 | abs }} # 17
+
+{{ "March 14, 2016" | date: "%b %d, %y" }} # Mar 14, 16
+
+{{ "now" | date: "%Y-%m-%d %H:%M" }} # 2022-03-11 16:24
+
+{{ article.published_at | date: "%Y" }} # 2015
+
+{{ "/my/fancy/url" | append: ".html" }} # /my/fancy/url.html
+
+{% assign filename = "/index.html" %}
+{{ "website.com" | append: filename }} # website.com/index.html
+
+{{ "title" | capitalize }} # Title
+
+{{ "Parker Moore" | upcase }} # PARKER MOORE
+
+{{ "Parker Moore" | downcase }} # parker moore
+
+{{ "Ground control to Major Tom." | split: " " | first }} # Ground
+
+{% assign my_array = "zebra, octopus, giraffe, tiger" | split: ", " %}
+{{ my_array.first }} # zebra
+
+{% if my_array.first == "zebra" %}
+  Here comes a zebra!
+{% endif %}
+
+{{ "Ground control to Major Tom." | split: " " | last }} # Tom.
+
+{% assign beatles = "John, Paul, George, Ringo" | split: ", " %}
+{{ beatles | join: " and " }} # John and Paul and George and Ringo
+
+{{ "Have you read 'James & the Giant Peach'?" | escape }} # Have you read &#39;James &amp; the Giant Peach&#39;?
+
+```
+
+
 
 ## 7. Deployment: Setting up a GitHub Pages Site with Jekyll
 
@@ -1164,7 +1213,7 @@ Additionally, the `default.html` is updated to contain these updated lines:
 
 ### Navigation Menu
 
-The navigation menu in `nav.html` is modified to contain the correct links and highlight the active page.
+The navigation menu in `nav.html` is modified to contain the correct links and highlight the active page. Note that th eindex page needs to be detected with `"/"` only.
 
 ```html
 <!-- Collect the nav links, forms, and other content for toggling -->
@@ -1178,6 +1227,137 @@ The navigation menu in `nav.html` is modified to contain the correct links and h
   </ul>
 </div><!-- /.navbar-collapse -->
 ```
+
+### Blog Post Layout: `_layouts/post.html`
+
+- Blog posts can be written by adding `_posts/YEAR-MONTH-DAY-my-title.markdown` files. They are written with front matter and HTML, Markdown & Liquid content.
+- The post layout `_layouts/post.html` is created using the provided code. In it, HTML code is pasted with Liquid variables.
+	- Conditionals, loops, variable filters, etc.: many Liquid functionalities are used
+	- Includes are done with HTML pieces
+	- Side panels or Widgets (posts with same categories, contact) are created/displayed
+
+Example post `2022-05-01-benefits-of-static-site-generators.markdown`:
+
+```yaml
+---
+layout: post
+title: Benefits of static site generators
+date: 2022-05-01 12:00
+author: Mikel
+image: https://place-hold.it/900x300
+lead: "Leading sentences of the post. If there is a lesson to be learned, it is the futility of seeking fulfillment in outer space. We need to judge ourselfs by who we are, not by where we go."
+categories:
+- jekyll
+- static website generation
+- blogging
+subtitle: Post subtitle - Create ultra fast, secure blog posts
+permalink: /blog/:year/:title
+---
+
+Text.
+
+```
+
+Blog post layout `_layouts/post.html`
+
+```html
+---
+layout: default
+---
+
+{% include subpage-header.html %}
+
+<!-- POST HTML -->
+<article id="post">
+    <div class="container">
+
+        <div class="row">
+
+            <!-- Blog Post Content Column -->
+            <div class="col-lg-8">
+
+                <!-- Blog Post -->
+
+                <!-- Title -->
+                <h1>{{ page.title }}</h1>
+
+                <!-- Author -->
+                <p class="lead">
+                    by {{ page.author }}
+                </p>
+
+                <hr>
+
+                <!-- Date/Time -->
+                <p><span class="glyphicon glyphicon-time"></span> Posted on {{ page.date | date: "%B %d, %Y"}}</p>
+
+                <hr>
+                
+                   <!-- Preview Image -->
+                   {% if page.image %}
+                   <img class="img-responsive" src="{{ page.image }}" alt="{{ page.image }}">
+                   {% endif %}
+
+                <hr>
+
+                <!-- Post Content -->
+                {% if page.lead %}
+                <p class="lead">{{ page.lead }}</p>
+                {% endif %}
+                
+				{{ content }}
+
+                <hr>
+
+                  <span class="previous-link">
+                  	{% if page.previous %}
+                    <a rel="prev" href="{{ page.previous.url }}">Previous article</a>
+                    {% endif %}
+                  </span>
+                
+                  <span class="next-link pull-right">
+                  	{% if page.next %}
+                    <a rel="next" href="{{ page.next.url }}">Next article</a>
+                    {% endif %}
+                  </span>               
+                <hr>
+            </div>
+
+            <!-- Blog Sidebar Widgets Column -->
+            <div class="col-md-4">
+
+                <!-- Blog Categories Well -->
+                <div class="well">
+                	{% for category_name in page.categories limit:1 %}
+                    <h4>{{ category_name | capitalize }}</h4>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <ul class="list-unstyled">
+                            	{% for post in site.categories[category_name] limit:5 %}
+                                <li><a href="{{ post.url }}">{{ post.title }}</a>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <!-- /.row -->
+                </div>
+
+                <!-- Side Widget Well -->
+                <div class="well">
+                	{% include contact-info.html %}
+                </div>
+
+            </div>
+
+        </div>
+        <!-- /.row -->
+    </div>
+</article>
+
+```
+
 
 ## 9. Forms
 
