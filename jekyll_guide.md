@@ -52,6 +52,7 @@ No guarantees.
 11. Collection of Additional Things
 12. Some Links on Themes and Websites
 
+
 ## 1. Introduction
 
 Jekyll generates static pages from easy Markdown files.
@@ -1498,6 +1499,13 @@ And then, move the changed files to the local site repo.
 ### Interesting Selected Themes
 
 - [Markdown cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
+- [How To Deploy a Static Website to the Cloud with DigitalOcean App Platform](https://www.digitalocean.com/community/tutorials/how-to-deploy-a-static-website-to-the-cloud-with-digitalocean-app-platform)
+- [Sample App for Jekyll](https://docs.digitalocean.com/products/app-platform/languages-frameworks/static-assets/jekyll/)
+- [How To Deploy a Static Site from GitHub with DigitalOcean App Platform [Quickstart]](https://www.digitalocean.com/community/tutorials/how-to-deploy-a-static-site-from-github-with-digitalocean-app-platform-quickstart)
+- [Jekyll without a theme](https://stackoverflow.com/questions/57419996/jekyll-without-a-theme)
+- [empty-jekyll-theme](https://github.com/garcon/empty-jekyll-theme)
+- [How To Build a Website with HTML](https://www.digitalocean.com/community/tutorial_series/how-to-build-a-website-with-html?mkt_tok=MTEzLURUTi0yNjYAAAGETSYTOnrDkTx6aH73I-I1zsNt7vZu9Ff_wGEX2sH9OdAfTZFfFIgMjQEIhPFT6WNI9fSXvQkfpC4A-DPSMjP63wwOpcHqLS8pxrjMFocGPg)
+- [How To Build a Website With CSS](https://www.digitalocean.com/community/tutorial_series/how-to-build-a-website-with-css?mkt_tok=MTEzLURUTi0yNjYAAAGETSYTO6ayIs0-zVCBcnVyVnIMcdi5C9FiraEGRmtV2yzU2wJdb41l3l84ULsvcSqJlPbO1vFqyuQTpTNYUiprIB5BLsYVMxt-1s4LEVnj3A)
 
 ### Interesting Websites Examples
 
