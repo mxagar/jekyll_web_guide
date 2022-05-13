@@ -50,7 +50,10 @@ No guarantees.
 9. Project 2: Create a Blog
 10. Comments & Forms
 11. Collection of Additional Things
-12. Some Links on Themes and Websites
+12. Personal Project: Create a Blank Static Website with a Custom Domain
+	- Step 1: Create a Blank Website in a Dedicated Github Organization (Private) Repository
+	- Step 2: Create a Digital Ocean App, Buy a Domain, and Deploy
+13. Some Links on Themes and Websites
 
 
 ## 1. Introduction
@@ -1487,7 +1490,161 @@ bundle show minima
 
 And then, move the changed files to the local site repo.
 
-## 12. Some Links on Themes and Websites
+## 12. Personal Project: Create a Blank Static Website with a Custom Domain
+
+This section explains how I created a blank static site with a custom domain. I bought the domain(s) at [www.namecheap.com](https://www.namecheap.com) and hosted the site(s) at [DigitalOcean](https://www.digitalocean.com). The first three static websites are free at Digital Ocean.
+
+Some interesting links related to the topic:
+
+- [How To Deploy a Static Website to the Cloud with DigitalOcean App Platform](https://www.digitalocean.com/community/tutorials/how-to-deploy-a-static-website-to-the-cloud-with-digitalocean-app-platform)
+- [Sample App for Jekyll](https://docs.digitalocean.com/products/app-platform/languages-frameworks/static-assets/jekyll/)
+- [How To Deploy a Static Site from GitHub with DigitalOcean App Platform [Quickstart]](https://www.digitalocean.com/community/tutorials/how-to-deploy-a-static-site-from-github-with-digitalocean-app-platform-quickstart)
+- [Jekyll without a theme](https://stackoverflow.com/questions/57419996/jekyll-without-a-theme)
+- [empty-jekyll-theme](https://github.com/garcon/empty-jekyll-theme)
+
+
+### Step 1: Create a Blank Website in a Dedicated Github Organization (Private) Repository
+
+I basically followed this Stackoverflow post: [Jekyll without a theme](https://stackoverflow.com/questions/57419996/jekyll-without-a-theme).
+
+Before creating the empty website, I created a provate repo with a `README.md`; this time, under the/my organization: `machine-vision-academy`.
+
+```bash
+# Create a repository and clone it
+# I created an organization and a private repo in it
+# https://github.com/machine-vision-academy/machine-vision-academy-website
+# Then, I directly cloned that repo
+cd ~/git_repositories
+git clone git@github.com:machine-vision-academy/machine-vision-academy-website.git
+# Then, inside the repository, create a blank website
+cd ~/git_repositories/machine-vision-academy-website
+jekyll new . --blank --force # force ignores
+bundle init
+bundle add jekyll
+bundle add webrick
+# copy a 404 error page from any other project
+cp .../404.html .
+vim .gitignore # _site, etc.
+# Edit the folloing files
+# _config.yaml: add a title
+# index.md: Add 'Coming Soon' content
+# Test the website locally
+bundle exec jekyll serve
+# Browser: localhost:4000
+# I had to execute this for a correct build on Digital Ocean
+bundle lock --add-platform x86_64-linux
+# Push the website to Github
+git add .
+git commit -m "..."
+git push
+```
+
+### Step 2: Create a Digital Ocean App, Buy a Domain, and Deploy
+
+I registered at [DigitalOcean](https://www.digitalocean.com) with my Github account.
+
+The first 3 static websites are free and they are deployed as apps.
+
+There is a [Sample App for Jekyll](https://docs.digitalocean.com/products/app-platform/languages-frameworks/static-assets/jekyll/), but you need to fork it; the issue is that I want to have a private repo for the website, which is not possible with forks.
+
+Thus, I tried the following approach and it worked:
+
+```
+Buy domain at wwww.namecheap.com
+	
+	e.g., 
+	machinevision.academy
+
+Create a Digital Ocean App
+
+	Log in
+	Apps > Create App
+		Source: Github
+		Edit Github permissions: add any permisions needed
+			machine-vision-academy/machine-vision-academy-website
+		Repository: Select
+			machine-vision-academy/machine-vision-academy-website
+		Branch: main
+		Source Directory: /
+		Autodeploy: ON
+		Continue, Next, Create...
+
+		Result: we will have an app
+		with a static website nested beneath!
+		Note: app containers are called jelly-app, orca-app, urchin-app, etc.
+
+		Wait until the first deplozment is successful.
+
+	App: Select our app
+	Settings > Domains
+		We see the default URL
+			orca-app-tkq7l.ondigitalocean.app
+			That's our URL!
+			We can open it with a browser
+
+If changes need to be made, make them in the website repo.
+Push a working version to git.
+	
+	cd ~/git_repositories/machine-vision-academy-website
+	make changes
+	git add .
+	git commit -m "..."
+
+DigitalOcean dashboard: check deployment works
+
+	Since deployment is automatic
+	we should see site is building;
+	check logs for any issues.
+
+	Check: App > Settings > Components: machine-vision-academy-website
+
+		We can see
+			the source repo URL
+			Command: bundle exec jekyll build -d ./public
+				I did not write that, it was automatically generated!
+
+	Check: App > Overview
+
+		We should see the deployment status
+
+DigitalOcean: Add Domain
+
+	machinevision.academy
+		https
+
+	Two options: I selected: You manage your domain
+		
+		Copy add URL: orca-app-tkq7l.ondigitalocean.app.
+		Add domain
+
+Go to domain provider and add the App URL of the Hosting (DigitalOcean): 
+DNS provider: www.namecheap.com
+
+	Domain list > Select domain: machinevision.academy > Manage > Advanced DNS
+	HOST Records: Add Records (one record for each IP)
+
+		Type: CNAME Record
+		Host: @ (bare domain)
+		TTL: Automatic
+		Value: orca-app-tkq7l.ondigitalocean.app
+
+Check that the records were propagated: open Terminal 30 mins later and execute
+
+	dig machinevision.academy +noall +answer -t AAAA
+
+Go to DigitalOcean App Settings again:
+
+	Check that domain is verified
+
+	Wait 1h so tha changes are propagated
+
+Open browser: and check the website is deployed!
+	
+	https://machinevision.academy
+
+```
+
+## 13. Some Links on Themes and Websites
 
 ### Theme Portals
 
@@ -1499,15 +1656,9 @@ And then, move the changed files to the local site repo.
 ### Interesting Selected Themes
 
 - [Markdown cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
-- [How To Deploy a Static Website to the Cloud with DigitalOcean App Platform](https://www.digitalocean.com/community/tutorials/how-to-deploy-a-static-website-to-the-cloud-with-digitalocean-app-platform)
-- [Sample App for Jekyll](https://docs.digitalocean.com/products/app-platform/languages-frameworks/static-assets/jekyll/)
-- [How To Deploy a Static Site from GitHub with DigitalOcean App Platform [Quickstart]](https://www.digitalocean.com/community/tutorials/how-to-deploy-a-static-site-from-github-with-digitalocean-app-platform-quickstart)
-- [Jekyll without a theme](https://stackoverflow.com/questions/57419996/jekyll-without-a-theme)
-- [empty-jekyll-theme](https://github.com/garcon/empty-jekyll-theme)
 - [How To Build a Website with HTML](https://www.digitalocean.com/community/tutorial_series/how-to-build-a-website-with-html?mkt_tok=MTEzLURUTi0yNjYAAAGETSYTOnrDkTx6aH73I-I1zsNt7vZu9Ff_wGEX2sH9OdAfTZFfFIgMjQEIhPFT6WNI9fSXvQkfpC4A-DPSMjP63wwOpcHqLS8pxrjMFocGPg)
 - [How To Build a Website With CSS](https://www.digitalocean.com/community/tutorial_series/how-to-build-a-website-with-css?mkt_tok=MTEzLURUTi0yNjYAAAGETSYTO6ayIs0-zVCBcnVyVnIMcdi5C9FiraEGRmtV2yzU2wJdb41l3l84ULsvcSqJlPbO1vFqyuQTpTNYUiprIB5BLsYVMxt-1s4LEVnj3A)
 
 ### Interesting Websites Examples
 
-
-
+TBD.
