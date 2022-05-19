@@ -17,6 +17,10 @@ No guarantees.
 1. HTML
 2. CSS
 3. Bootstrap
+X. Interesting Links
 
 # 1. HTML
 
+# X. Interesting Links
+
+[An Introduction to Using Jekyll With Bootstrap 4](https://betterprogramming.pub/an-introduction-to-using-jekyll-with-bootstrap-4-6f2433afeda9)
