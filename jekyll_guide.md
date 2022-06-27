@@ -1554,6 +1554,9 @@ Buy domain at wwww.namecheap.com
 	
 	e.g., 
 	machinevision.academy
+		msagardia@machinevision.academy
+	datamix.ai
+		hello@datamix.ai
 
 Create a Digital Ocean App
 
@@ -1661,4 +1664,8 @@ Open browser: and check the website is deployed!
 
 ### Interesting Websites Examples
 
-TBD.
+- Very interesting web and profile to use as a template: [Vincent Driessen](https://nvie.com):
+	- Consulting company web
+	- Personal page with about and posts
+	- Linkedin profile: how to describe building a product, etc.
+

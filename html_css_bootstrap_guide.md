@@ -14,12 +14,56 @@ No guarantees.
 
 **Overview of contents**:
 
-1. HTML
+1. [HTML](#HTML)
+	- [General Notes](#General-Notes)
+	- [Basic HTML File Structure](#Basic-HTML-File-Structure)
 2. CSS
 3. Bootstrap
 X. Interesting Links
 
 # 1. HTML
+
+The files generated in this section are located in `06_HTML_basics/`.
+
+Note that Sublime and Atom have HTML file autocompletion.
+
+## General Notes
+
+- HTML files contain the content.
+- CSS files define the style.
+- Bootstrap automates style elements.
+- If we have a dynamic page, we're going to need a database (SQL).
+- The programming and handling of the different elements is done with Javascript; however, we can use a web framework, like Flask, which allows programming the behavior in python.
+
+## Basic HTML File Structure
+
+The very basic HTML file create by autocompletion is the following `basic.html`:
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>This is my title!</title>
+</head>
+<body>
+This is the content.
+</body>
+</html>
+```
+
+Notes on the code:
+
+- DOCTYPE tells the browser we have an HTML file.
+- HTML works with tags that are opened `<html>` and sometimes closed `</html>`.
+- We have 2 main parts in a HTML file: 
+	- head: metadata, linkings to JS & CSS files, etc.
+	- body: content
+
+## HTML Tagging
+
+
 
 # X. Interesting Links
 
