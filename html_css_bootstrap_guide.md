@@ -63,7 +63,60 @@ Notes on the code:
 
 ## HTML Tagging
 
+Heading tags: `<h1>Heading Level 1</h1>`. There are 6 levels: `<h2>, <h3>, ...`
 
+Spaces are not registered unless we use a paragraph tag: `<p>Text</p>`.
+
+Trick: type `lorem + TAB`: Lorem Ipsum text is filled!
+
+Bold and italics: `<p><strong>strong is bold</strong> and <em>emphasis is italics</em></p>
+`.
+
+Very important reference link: [Mozilla HTML elements reference](https://developer.mozilla.org/en-US/docs/Web/HTML/Element)
+
+## Lists
+
+Lists can be:
+
+- Numbered, ordered: `<ol>`
+- Bullet points, unordered: `<ul>`
+
+Inside a list, no matter the type, we add list elements with `<li>`.
+
+We can also nest lists by just simply adding new lists below a list item.
+
+```html
+<p>A numbered list:</p>
+
+<ol>
+	<li>First item</li>
+	<li>Second item</li>
+	<li>Third item</li>
+</ol>
+
+<p>A bullet list:</p>
+
+<ul>
+	<li>First item</li>
+	<li>Second item</li>
+	<li>Third item</li>
+</ul>
+```
+
+## Divs and Spans with HTML
+
+With divisions and spans, we can segment the page and later on apply different CSS styles to each segment:
+
+- `<div class="">` is used for larger page divisions in which we link a CSS style class, empty in the following example; if it's empty, nothing happens in the page.
+- `<span class="">` is used for sentence parts; we link the CSS style class	as in the division.
+
+```html
+<div class="">
+	<p>This is a sentence in a division.</p>
+</div>
+
+<p>This is in a <span class="">span</span></p>
+```
 
 # X. Interesting Links
 
