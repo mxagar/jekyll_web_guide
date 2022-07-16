@@ -55,6 +55,17 @@ span{
 
 /* Fonts */
 
+/*Google for fonts available on all platforms*/
+/*We can also use standard family types and each platform chooses one: cursive, monospace, etc.*/
+/*Or we can use Google Fonts: we add a link in the HTML head and select font on the web*/
 h1{
-	font-family: cursive; /* monospace, etc.*/
+	/* font-family: Courier; or cursive, monospace */
+	font-family: 'Roboto', sans-serif; /*Google Font linked in HTML head */
+}
+
+p{
+	font-size: 20px;
+	font-weight: bold;
+	font-style: italic;
+	text-align: center;
 }

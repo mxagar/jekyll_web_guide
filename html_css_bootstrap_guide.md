@@ -25,6 +25,11 @@ No guarantees.
 	- [Forms](#Forms)
 	- [Other HTML Elements and Notes](#Other-HTML-Elements-and-Notes)
 2. CSS
+	- [CSS Stylesheet and Basic Style Definitions](#CSS-Stylesheet-and-Basic-Style-Definitions)
+	- [Background, Borders, Divs, Spans](#Background,-Borders,-Divs,-Spans)
+	- [CSS Classes and Ids](#CSS-Classes-and-Ids)
+	- [Exploring Elements in the Browser](#Exploring-Elements-in-the-Browser)
+	- [Fonts](#Fonts)
 3. Bootstrap
 X. Interesting Links
 
@@ -255,7 +260,7 @@ This section has examples in the folder
 	master.css
 ```
 
-## CSS Stylesheet and Basic Style Definitions (Color)
+## CSS Stylesheet and Basic Style Definitions
 
 After creating a basicc HTML file, we link to it a CSS stylesheet in which we define style properties of the elements in the HTML file.
 
@@ -393,11 +398,69 @@ Additionally, we can modify on-the-fly the properties a visualize the changes.
 
 ## Fonts
 
-[List of typefaces included with macOS](https://en.wikipedia.org/wiki/List_of_typefaces_included_with_macOS)
+One set of attributes of the HTML elements is related to the fonts: we can select the family, style, weight, etc.
 
-[List of typefaces included with Microsoft Windows](https://en.wikipedia.org/wiki/List_of_typefaces_included_with_Microsoft_Windows)
+We ca use these options:
+
+- Standard fonts that are chosen by the OS: `monospace`, `cursive`, etc.
+- OS-specific fonts:
+	- [List of typefaces included with macOS](https://en.wikipedia.org/wiki/List_of_typefaces_included_with_macOS)
+	- [List of typefaces included with Microsoft Windows](https://en.wikipedia.org/wiki/List_of_typefaces_included_with_Microsoft_Windows)
+- [Google Fonts](https://fonts.google.com): we can get select a font link, add it to the `<head>` and use the font in the CSS stylesheet.
+
+`index.html`:
+
+```html
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+	<!--The link to the CSS stylesheet is realized here!-->	
+	<link rel="stylesheet" type="text/css" href="master.css">
+	<!--Google fonts-->
+	<link rel="preconnect" href="https://fonts.googleapis.com"> 
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
+</head>
+````
+
+`master.css`:
+
+```css
+/*Google for fonts available on all platforms*/
+/*We can also use standard family types and each platform chooses one: cursive, monospace, etc.*/
+/*Or we can use Google Fonts: we add a link in the HTML head and select font on the web*/
+h1{
+	/* font-family: Courier; or cursive, monospace */
+	font-family: 'Roboto', sans-serif; /*Google Font linked in HTML head */
+}
+
+p{
+	font-size: 20px;
+	font-weight: bold;
+	font-style: italic;
+	text-align: center;
+}
+```
 
 # 3. Bootstrap
+
+[Bootstrap](https://getbootstrap.com/) is a Front-end toolkit with many built-in components and themes ready to use.
+
+There are 2 ways of using Bootstrap:
+
+1. Download the toolkit and link it locally.
+2. Copy the links provided in the [Bootstrap](https://getbootstrap.com/) homepage to the `<head>`.
+
+Look at the [Bootstrap examples](https://getbootstrap.com/docs/5.2/examples/) for some of the available possibilities.
+
+Look at the [Bootstrap docs](https://getbootstrap.com/docs/5.2/getting-started/introduction/): select a component, read the docs and find the HTML snippet we can directly copy & paste.
+
+The examples from this section are in
+
+`08_Bootstrap_basics/`
+
+## Bootstrap Basics
 
 
 
