@@ -41,6 +41,7 @@ Note that Sublime and Atom have HTML file autocompletion.
 - Bootstrap automates style elements.
 - If we have a dynamic page, we're going to need a database (SQL).
 - The programming and handling of the different elements is done with Javascript; however, we can use a web framework, like Flask, which allows programming the behavior in python.
+- As we write our page HTML, CSS, etc., if we refresh the main HTML page we should see the changes.
 
 ## Basic HTML File Structure
 
@@ -241,6 +242,162 @@ We can have more sophisticated `<input>` elements, such as:
 - Sometimes we can combine tags, e.g., links and images.
 
 # 2. CSS
+
+CSS = Cascading Style Sheets. CSS files allow us to change style attributes of HTML elements: color, background, borders, size, location, etc.
+
+We need to create a `*.css` file and `<link>` it to the `*.html` in its `head`; then, we define the style of the HTML elements from the `*.html` file. The idea is that we can define the style for each element type: `h1`, `li`, etc.
+
+This section has examples in the folder
+
+```
+07_CSS_basics/
+	index.html
+	master.css
+```
+
+## CSS Stylesheet and Basic Style Definitions (Color)
+
+After creating a basicc HTML file, we link to it a CSS stylesheet in which we define style properties of the elements in the HTML file.
+
+CSS files contain HTML elements/tags and property-value definitions in them:
+
+```css
+h1{
+	color:blue;
+}
+```
+
+Examples:
+
+`07_CSS_basics/index.html`:
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+	<!--The link to the CSS stylesheet is realized here!-->
+	<link rel="stylesheet" type="text/css" href="master.css">
+</head>
+<body>
+	<h1>This is the heading h1</h1>
+	<p>Let's see a list</p>
+	<ol>
+		<li>A</li>
+		<li>B</li>
+		<li>C</li>
+	</ol>
+
+	<h4>Heading 4</h4>
+</body>
+</html>
+```
+
+`07_CSS_basics/master.css`:
+
+```css
+h1{
+	color: blue;
+}
+
+li{
+	/*Google hex color to pick a RGB color value*/
+	color: rgb(30,200,0);
+}
+
+p{
+	/*Google hex color to pick a HEX color value*/
+	color: #378a87;
+}
+
+h4{
+	/*Google hex color to pick a RGB color value*/
+	/*a = alpha = transparency*/
+	color: rgba(180, 100, 0, 0.5);
+}
+```
+
+Note that comments are added with `/*...*/`
+
+## Background, Borders, Divs, Spans
+
+We can define the style for all `<div>`, `<span>`, etc. Note that if no classes or ids are used, all elements will be affected. I we want to target specific elements or groups of elements, we need to use classes and ids -- se below.
+
+```css
+body{
+	/*We can set body background colors or images*/
+	/*background: gray;*/
+	background: url(https://images.unsplash.com/photo-1589254065878-42c9da997008?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80);
+	background-repeat: no-repeat;
+}
+
+div{
+	background: blue;
+	border: orange;
+	border-width: medium; /*20px*/
+	border-style: solid;
+	/* Alternative in one line: */
+	/*border: red 10px dotted;*/
+}
+
+span{
+	background: red;
+	color: black;
+}
+```
+
+## CSS Classes and Ids
+
+We can define style for specific elements and groups of elements. That is done by defining:
+
+- Ids: a particular HTML element gets an `id="myId"` which is used in the CSS as `#myId{}`.
+- Classes: we define a style for a group of different element types. It is very common to use classes in `divs`: `<div class="myDivClass">`; then, we define the class in the CSS file as `.myDivClass{}`.
+
+Note that re-definitions of style property extensions are overlaid.
+
+```html
+<div class="firstDiv">
+	<p>I'm inside the first div</p>
+</div>
+
+<div class="secondDiv">
+	<p>I'm inside the second div</p>
+</div>
+
+<p id="singeParagraph">I'm outside any div</p>
+```
+
+```css
+.firstDiv{
+	color: blue;
+}
+
+.secondDiv{
+	background-color: gray;
+}
+
+#singeParagraph{
+	color: red;
+}
+```
+
+## Exploring Elements in the Browser
+
+On Chrome or Safari: open a website, right-click on an element and select "Inspect".
+
+We can see the HTML and the CSS code of the element.
+
+Additionally, we can modify on-the-fly the properties a visualize the changes.
+
+## Fonts
+
+[List of typefaces included with macOS](https://en.wikipedia.org/wiki/List_of_typefaces_included_with_macOS)
+
+[List of typefaces included with Microsoft Windows](https://en.wikipedia.org/wiki/List_of_typefaces_included_with_Microsoft_Windows)
+
+# 3. Bootstrap
 
 
 
