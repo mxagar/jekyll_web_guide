@@ -24,7 +24,7 @@
 
 	<p>Font: <strong>strong is bold</strong> and <em>emphasis is italics</em>.</p>
 
-	<p>A numbered list:</p>
+	<p>A numbered list (ordered):</p>
 
 	<ol>
 		<li>First item</li>
@@ -32,7 +32,7 @@
 		<li>Third item</li>
 	</ol>
 
-	<p>A bullet list:</p>
+	<p>A bullet list (unordered):</p>
 
 	<ul>
 		<li>First item</li>
@@ -44,7 +44,88 @@
 		<p>This is a sentence in a division.</p>
 	</div>
 
-	<p>This is in a <span class="">span</span></p>
+	<p>This is in a <span class="">span</span>.</p>
+
+	<p>
+
+		Local image:
+		<br>
+		
+		<img src="image.jpeg" alt="Uh oh, image not found...">
+
+		<br>
+
+		Linked image:
+		<br>
+
+		<img src="https://images.unsplash.com/photo-1589254065878-42c9da997008?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80" alt="Uh oh, image not found...">
+
+	</p>
+
+	<p>
+		<!-- Link to current HTML file -->
+		<a href="#">This is my link</a>
+	</p>
+
+	<p>
+		<!-- Link to an URL -->
+		<a href="https://mikelsagardia.io">This is my link</a>
+	</p>
+
+	<p>
+		<!-- An image with a link -->
+		<a href="https://mikelsagardia.io">
+		<img src="eberhard-grossgasteiger-nVOPBYchSTY-unsplash.jpg" alt="mountains" width="150" height="70">
+		</a>
+	</p>
+
+	<form>
+		<h1>Log in</h1>
+		<h1>Please input your email and password:</h1>
+		<input type="email" name="">
+		<input type="password" name="">
+		<input type="color" name="">
+		<input type="text" name="">
+		<input type="submit" name="" value="Submit">
+	</form>
+
+	<form action="http://www.google.com" method="get">
+		<label for="emailtag">EMAIL:</label>
+		<input id="emailtag" type="email" name="useremail" value="" placeholder="my@email.net">
+		<br>
+		<label for="passtag">PASSWORD:</label>
+		<input id="passtag" type="password" name="userpass" value="" placeholder="password">
+		<br>
+		<input type="submit" name="" value="Submit">
+		<!-- We we hit Submit, the content of the form is passed to the action HTML page
+			 and, since we use the get method, information is requested:
+			 https://www.google.com/?useremail=my%40mail.com&userpass=test 
+		-->
+	</form>
+
+	<form>
+		<h3>Do you already own a dog?</h3>
+		<!--Input radio types that share the same name attribute are connected -->
+		<label for="yes">Yes:</label>
+		<input type="radio" id="yes" name="dog_choice" value="yes">
+		<label for="no">No:</label>
+		<input type="radio" id="no" name="dog_choice" value="no">
+
+		<h3>How clean is your house? (1-3)</h3>
+		<!--The browser shows 1/2/3 but the data processed is the value Bad/Good/Great-->
+		<select name="stars">
+			<option value="Great">3</option>
+			<option value="Good">2</option>
+			<option value="Bad">1</option>
+		</select>
+
+		<h3>Any other comments?</h3>
+		<!--Text box with custom size -->
+		<textarea name="textbox" rows=8 cols=80></textarea>
+	
+		<input type="submit" name="" value="Submit Feedback">
+
+	</form>
 
 </body>
 </html>
