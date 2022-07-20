@@ -24,14 +24,18 @@ No guarantees.
 	- [Hyperlinks: Anchor Tags](#Hyperlinks:-Anchor-Tags)
 	- [Forms](#Forms)
 	- [Other HTML Elements and Notes](#Other-HTML-Elements-and-Notes)
-2. CSS
+2. [CSS](#CSS)
 	- [CSS Stylesheet and Basic Style Definitions](#CSS-Stylesheet-and-Basic-Style-Definitions)
 	- [Background, Borders, Divs, Spans](#Background,-Borders,-Divs,-Spans)
 	- [CSS Classes and Ids](#CSS-Classes-and-Ids)
 	- [Exploring Elements in the Browser](#Exploring-Elements-in-the-Browser)
 	- [Fonts](#Fonts)
-3. Bootstrap
-X. Interesting Links
+3. [Bootstrap](#Bootstrap)
+	- [Bootstrap Basics](#Bootstrap-Basics)
+	- [Forms](#Forms)
+	- [Navbars](#Navbars)
+4. [Javascript](#Javascript)
+5. [Interesting Links](#Interesting-Links)
 
 # 1. HTML
 
@@ -749,6 +753,11 @@ Note that sometimes some [jQuery](https://jquery.com/) links are necessary so th
   </body>
 </html>
 ```
-# X. Interesting Links
 
-[An Introduction to Using Jekyll With Bootstrap 4](https://betterprogramming.pub/an-introduction-to-using-jekyll-with-bootstrap-4-6f2433afeda9)
+# 4. Javascript
+
+TBD.
+
+# 5. Interesting Links
+
+- [An Introduction to Using Jekyll With Bootstrap 4](https://betterprogramming.pub/an-introduction-to-using-jekyll-with-bootstrap-4-6f2433afeda9)
