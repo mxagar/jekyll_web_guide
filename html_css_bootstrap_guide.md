@@ -8,13 +8,14 @@ These notes originated from various sources, among others:
 ](https://www.udemy.com/course/python-and-flask-bootcamp-create-websites-using-flask)
 - [How To Build a Website with HTML](https://www.digitalocean.com/community/tutorial_series/how-to-build-a-website-with-html?mkt_tok=MTEzLURUTi0yNjYAAAGETSYTOnrDkTx6aH73I-I1zsNt7vZu9Ff_wGEX2sH9OdAfTZFfFIgMjQEIhPFT6WNI9fSXvQkfpC4A-DPSMjP63wwOpcHqLS8pxrjMFocGPg)
 - [How To Build a Website With CSS](https://www.digitalocean.com/community/tutorial_series/how-to-build-a-website-with-css?mkt_tok=MTEzLURUTi0yNjYAAAGETSYTO6ayIs0-zVCBcnVyVnIMcdi5C9FiraEGRmtV2yzU2wJdb41l3l84ULsvcSqJlPbO1vFqyuQTpTNYUiprIB5BLsYVMxt-1s4LEVnj3A)
+- [Intro to Javascript, Udacity](https://www.udacity.com/course/intro-to-javascript--ud803)
 
 Mikel Sagardia, 2022.  
 No guarantees.
 
 **Overview of contents**:
 
-1. [HTML](#HTML)
+1. [HTML](#1.-HTML)
 	- [General Notes](#General-Notes)
 	- [Basic HTML File Structure](#Basic-HTML-File-Structure)
 	- [HTML Tagging: Titles](#HTML-Tagging:-Titles)
@@ -24,18 +25,18 @@ No guarantees.
 	- [Hyperlinks: Anchor Tags](#Hyperlinks:-Anchor-Tags)
 	- [Forms](#Forms)
 	- [Other HTML Elements and Notes](#Other-HTML-Elements-and-Notes)
-2. [CSS](#CSS)
+2. [CSS](#2.-CSS)
 	- [CSS Stylesheet and Basic Style Definitions](#CSS-Stylesheet-and-Basic-Style-Definitions)
 	- [Background, Borders, Divs, Spans](#Background,-Borders,-Divs,-Spans)
 	- [CSS Classes and Ids](#CSS-Classes-and-Ids)
 	- [Exploring Elements in the Browser](#Exploring-Elements-in-the-Browser)
 	- [Fonts](#Fonts)
-3. [Bootstrap](#Bootstrap)
+3. [Bootstrap](#3.-Bootstrap)
 	- [Bootstrap Basics](#Bootstrap-Basics)
 	- [Forms](#Forms)
 	- [Navbars](#Navbars)
-4. [Javascript](#Javascript)
-5. [Interesting Links](#Interesting-Links)
+4. [Javascript and jQuery](#4.-Javascript-and-jQuery)
+5. [Interesting Links](#5.-Interesting-Links)
 
 # 1. HTML
 
@@ -254,7 +255,9 @@ We can have more sophisticated `<input>` elements, such as:
 
 CSS = Cascading Style Sheets. CSS files allow us to change style attributes of HTML elements: color, background, borders, size, location, etc.
 
-We need to create a `*.css` file and `<link>` it to the `*.html` in its `head`; then, we define the style of the HTML elements from the `*.html` file. The idea is that we can define the style for each element type: `h1`, `li`, etc.
+Note that we can also do inline styling by just appending the attribute `style=...` to the tags; but that's tedious, because we'd have to add one for each tag. Instead, styling is defined in a separate CSS file.
+
+To that end, we need to create a `*.css` file and `<link>` it to the `*.html` in its `head`; then, we define the style of the HTML elements from the `*.html` file. The idea is that we can define the style for each element type: `h1`, `li`, etc.
 
 This section has examples in the folder
 
@@ -456,17 +459,66 @@ There are 2 ways of using Bootstrap:
 1. Download the toolkit and link it locally.
 2. Copy the links provided in the [Bootstrap](https://getbootstrap.com/) homepage to the `<head>`.
 
+**Important correction: we distinguish between the CSS stylesheets and `<script>` lines:**
+
+- CSS stylesheets are integrated with `<link>` and they go in the `<head>`.
+- Javascript and other files are integrated with `<cript>` and they should go at the end of the `<body>`.
+- Place vendor files first and our files then so that we replace vendor styles.
+
+```html
+<html>
+  <head>
+    <link rel="stylesheet" href="bootstrap.css">
+    <link rel="stylesheet" href="your-other-styles.css">
+  </head>
+  <body>
+    <!-- content -->
+    <script src="jquery.js"></script>
+    <script src="bootstrap.js"></script>
+    <script src="your-other-scripts.js"></script>
+  </body>
+</html>
+```
+
 Look at the [Bootstrap examples](https://getbootstrap.com/docs/5.2/examples/) for some of the available possibilities.
 
 Look at the [Bootstrap docs](https://getbootstrap.com/docs/5.2/getting-started/introduction/): select a component, read the docs and find the HTML snippet we can directly copy & paste.
 
-If we remove the Bootstrap CSS and JS links from `<head>`, the components will appear, but unformatted, i.e., ugly. In that sense, the [Bootstrap docs](https://getbootstrap.com/docs/5.2/getting-started/introduction/) are also a very good reference of components/examples we can use in HTML.
+If we remove the Bootstrap CSS and JS links, the components will appear, but unformatted, i.e., ugly. In that sense, the [Bootstrap docs](https://getbootstrap.com/docs/5.2/getting-started/introduction/) are also a very good reference of components/examples we can use in HTML.
 
 The examples from this section are in
 
 `08_Bootstrap_basics/`
 
 Note that the CSS stylesheet is empty, because we use the one from the Bootstrap link!
+
+The initial template with all the imports recommended by Boostrap is the following:
+
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+  </head>
+  <body>
+    <h1>Hello, world!</h1>
+    
+    <!--Bootstrap-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+    <!--jQuery-->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <!--Popper-->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js" integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk" crossorigin="anonymous"></script>
+    <!--Bootstrap JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.min.js" integrity="sha384-ODmDIVzN+pFdexxHEHFBQH3/9/vQ9uori45z4JjnFsRydbmQbmL5t1tQ0culUzyK" crossorigin="anonymous"></script>
+  </body>
+</html>
+```
+
+Note that the examples in here need to be updated to use that template for imports.
 
 ## Bootstrap Basics
 
@@ -754,9 +806,209 @@ Note that sometimes some [jQuery](https://jquery.com/) links are necessary so th
 </html>
 ```
 
-# 4. Javascript
+## Dashboards
 
-TBD.
+Look at my notes from the [Udacity Data Science Nanodegree](https://www.udacity.com/course/data-scientist-nanodegree--nd025): `/ 02_SWENgineering.md: 6. Web Development`.
+
+Examples on how to use Bootstrap to create dashboards are documented and collected in the `lab/` folder.
+
+
+# 4. Javascript and jQuery
+
+Javascript was developed to provide interactivity in HTML webpages by a programmer from the Netscape navigator. Basically, we manipulate the elements of a webpage using Javascript: change their color, fade-in, pop-up, text, etc. Although it's called *Javascript*, it has nothing to do with the Java language; that naming was a marketing decision due to the popularity of Java at the time.
+
+Nowadays, Javascript can be used in a runtime environment like [Node](https://nodejs.org/en/). Or we can directly use the browser (Chrome) Javascript console to test our code: `View > Developer > Javascript Console`. We can copy and paste our code there.
+
+However, since this guide is related to basic web development, note that we will use Javascript files written in `my_file.js` files and integrated into the HTML file. We can also write JS code in `<script>` elements.
+
+## Introductory Example: Javascript and jQuery
+
+Very simple example: we define a `headFunction()` which changes the `h1` text in the page when we click on the page image (`<img onclick=...`).
+
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>JS Example</title>
+    <script>
+    	// Change the text content of the element with tag name h1
+    	// Look for all elements with tag h1 and grab the first
+    	// We need to trigger the function, e.g., with onclik in the img
+    	function headFunction() {
+    		document.getElementsByTagName("h1")[0].innerHTML = "Hello Again!";
+    	}
+    </script>
+  </head>
+  <body>
+  	<h1>Hello World!</h1>
+  	<!-- Function defined above is triggered here with onclick -->
+    <img src="photo.jpg" alt="Hello world photo." onclick="headFunction()">
+  </body>
+</html>
+```
+
+Note that it is quite cumbersome having to type all that code for a simple action. To make things easier, the [jQuery](https://api.jquery.com/) Javascript can be used. We need to add the library link in a `<script>` in the body, and the code is transformed as follows:
+
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>JS Example</title>
+    <script>
+			// When website is ready, run this function:
+			// when we click on img, change the text of h1
+			// This way, we don't need the onclick attribute in the img
+			// $(): grab this element, class or id
+			$(document).ready(function(){
+			        $("img").click(function(){
+			            $("h1").text("A Photo of an Amazing  View");
+			        });
+			    });
+    </script>
+  </head>
+  <body>
+  	<h1>Hello World!</h1>
+  	<!-- No function triggering necessary anymore -->
+    <img src="photo.jpg" alt="Hello world photo.">
+
+    <!--jQuery library URL-->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  </body>
+</html>
+```
+
+However, note that jQuery is a library for HTML element management; we still need to write *normal* Javascript code without jQuery.
+
+If we write the JS code in a separate file `my_script.js`, we just need to integrate it in the `<head>` as follows:
+
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>JS Example</title>
+    <script src="my_script.js"> </script>
+  </head>
+  <body>
+  	<h1>Hello World!</h1>
+  	<!-- No function triggering necessary anymore -->
+    <img src="photo.jpg" alt="Hello world photo.">
+
+    <!--jQuery library URL-->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  </body>
+</html>
+```
+
+`my_script.js`:
+
+```javascript
+// Click on an image to change text on screen
+$(document).ready(function(){
+        $("img").click(function(){
+            $("h1").text("A Photo of an Amazing  View");
+        });
+    });
+
+// Webpage content hides and then fades in slowly as webpage loads
+$(document).ready(function(){
+        $("body").hide().fadein("slow");
+    });
+
+// Image fades out when I click on title
+$(document).ready(function(){
+        $("h1").click(function(){
+            $("img").fadeout("slow");
+        });
+    });
+
+// When we click on the image, "Thank you" appears in the h2 tag
+$(document).ready(function(){
+        $("img").click(function(){
+            $("h2").text("Thank you");
+        });
+    });
+
+// When loaded the webpage, the paragraph p disappears
+// but then it starts fading in slowly
+$(document).ready(function(){
+        $("p").hide().fadein("slow");
+    });
+
+// When we click on the h2 title, it disappears quickly
+$(document).ready(function(){
+        $("h2").click(function(){
+            $("h2").fadeout("fast");
+        });
+    });
+```
+
+More modern alternatives to jQuery are React or Angular.
+
+## Javascript Syntax
+
+In the following, some self-explanatory lines of code.
+
+We can define the code it in a `my_script.js` file and integrate it to our HTML or we can run in (copy & paste) in a Javascript console (e.g., in Chrome: `View > Developer Tools > Javascript Console`).
+
+```javascript
+function addValues(x) {
+	/* This function gets an array x.
+	All items of it are summed in a for-loop.	*/
+  var sum_array = 0; // variable definition
+  for (var i=0; i < x.length; i++) {
+    sum_array += x[i]; // array indexing
+  }
+  return sum_array;
+}
+
+function main() {
+  console.log("Hello"); // print to console
+	var sum = addValues([3,4,5,6]); // we pass an array to a function
+	console.log(sum);
+	var my_string = "Hello" + " World!"; // string concatenation
+	console.log(my_string[0]); // J
+	var my_boolean = true;
+	var my_other_boolean = false;
+
+	var a = 1;
+	var b = 2;
+	if (a > b) {
+	  console.log("a is greater than b");
+	} else if (a == b) {
+	  console.log("a is equal to b");
+	} else {
+	  console.log("a is less than b");
+	}
+
+	var colt = "not busy";
+	var weather = "nice";
+
+	if (colt === "not busy" && weather === "nice") {
+	  console.log("go to the park");
+	}
+
+	// Ternary operator
+	var isGoing = true;
+	var color = isGoing ? "green" : "red";
+	console.log(color);
+
+	var start = 0; // when to start
+	while (start < 10) { // when to stop
+	  console.log(start);
+	  start = start + 2; // how to get to the next item
+	}
+
+}
+
+```
+
+
 
 # 5. Interesting Links
 
