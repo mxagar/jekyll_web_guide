@@ -957,6 +957,9 @@ In the following, some self-explanatory lines of code.
 We can define the code it in a `my_script.js` file and integrate it to our HTML or we can run in (copy & paste) in a Javascript console (e.g., in Chrome: `View > Developer Tools > Javascript Console`).
 
 ```javascript
+// Hoisting: we don't need to declare the function
+// before using it; HOWEVER, avoid using it and declare 
+// everything as in other languages...
 function addValues(x) {
 	/* This function gets an array x.
 	All items of it are summed in a for-loop.	*/
@@ -1003,6 +1006,72 @@ function main() {
 	  console.log(start);
 	  start = start + 2; // how to get to the next item
 	}
+
+	// Function expression: we declare a var
+	// as a function object.
+	// This is done to use functions as callbacks,
+	// i.e., we pass functions to other functions.
+	var catSays = function(max) {
+	  var catMessage = "";
+	  for (var i = 0; i < max; i++) {
+	    catMessage += "meow ";
+	  }
+	  return catMessage;
+	};
+	catSays; // It returns the anonymous function above
+
+	// function declaration helloCat accepting a callback
+	function helloCat(callbackFunc) {
+	  return "Hello " + callbackFunc(3);
+	}
+
+	// pass in catSays as a callback function
+	helloCat(catSays);
+
+	// creates a `mixedData` array with mixed data types
+	var mixedData = ["abcd", 1, true, undefined, null, "all the things"];
+
+	// creates a `arraysInArrays` array with three arrays
+	var arraysInArrays = [[1, 2, 3], ["Julia", "James"], [true, false, true, false]];
+	var row = 1;
+	var col = 0;
+	console.log(arraysInArrays[row][col]); // "Julia"
+
+	mixedData[0] = "efgh";
+
+	arraysInArrays.length; // 3
+
+	mixedData.push("test"); // add to the end
+	mixedData.pop(); // remove from the end
+
+	// Splice: add and remove elements from anywhere within an array.
+	// -2: add/remove starting position 2 before end
+	// 0: remove 0 items
+	// "chocolate frosted", "glazed": items added
+	// results: ["cookies", "chocolate frosted", "glazed", "cinnamon sugar", "crema de leche"]
+	var donuts = ["cookies", "cinnamon sugar", "crema de leche"];
+	donuts.splice(-2, 0, "chocolate frosted", "glazed");
+
+	// Upper case: "COOKIES", "CINNAMON SUGAR", ...
+	donuts[i].toUpperCase();
+
+	// Objects = Classes
+	var umbrella = {
+		color: "pink",
+		isOpen: false,
+		open: function() {
+			if (umbrella.isOpen === true) {
+				return "Already open.";
+			} else {
+				isOpen = true;
+				return "Umbrella opened.";
+			}
+		}
+	}
+	umbrella.isOpen; // false
+	umbrella["isOpen"]; // false
+	umbrella.open(); // "Umbrella opened."
+	umbrella.isOpen; // true	
 
 }
 
